@@ -2,7 +2,7 @@ FROM docker/sandbox-templates:claude-code
 
 USER root
 
-# Install system dependencies for Elixir/Erlang
+# Install system dependencies for Elixir/Erlang compilation
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     wget \
@@ -11,33 +11,33 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     autoconf \
     libncurses5-dev \
     libssl-dev \
-    libwxgtk3.2-dev \
-    libgl1-mesa-dev \
-    libglu1-mesa-dev \
-    libpng-dev \
     libssh-dev \
-    unixodbc-dev \
-    xsltproc \
-    fop \
-    libxml2-utils \
     inotify-tools \
     postgresql-client \
     nodejs \
     npm \
     && rm -rf /var/lib/apt/lists/*
 
-# Install asdf version manager as root first
+# Install asdf version manager system-wide
 RUN git clone https://github.com/asdf-vm/asdf.git /opt/asdf --branch v0.14.0
 
-# Make asdf available system-wide
-RUN echo '. /opt/asdf/asdf.sh' >> /etc/bash.bashrc && \
+ENV ASDF_DIR=/opt/asdf
+
+RUN echo 'export ASDF_DIR=/opt/asdf' >> /etc/bash.bashrc && \
+    echo '. /opt/asdf/asdf.sh' >> /etc/bash.bashrc && \
+    echo 'export ASDF_DIR=/opt/asdf' >> /etc/profile && \
     echo '. /opt/asdf/asdf.sh' >> /etc/profile
 
 USER agent
 
 # Setup asdf for agent user
-RUN echo '. /opt/asdf/asdf.sh' >> /home/agent/.bashrc && \
+RUN echo 'export ASDF_DIR=/opt/asdf' >> /home/agent/.bashrc && \
+    echo '. /opt/asdf/asdf.sh' >> /home/agent/.bashrc && \
+    echo 'export ASDF_DIR=/opt/asdf' >> /home/agent/.profile && \
     echo '. /opt/asdf/asdf.sh' >> /home/agent/.profile
+
+# Skip optional GUI/Java components — not needed in a headless sandbox
+ENV KERL_CONFIGURE_OPTIONS="--without-javac --without-odbc --without-wx --without-debugger --without-observer --without-et"
 
 # Install Erlang and Elixir via asdf
 RUN . /opt/asdf/asdf.sh && \
