@@ -32,3 +32,16 @@ jobs:
         with:
           context: ${{ matrix.image }}
           push: false
+
+  ci-success:
+    needs: build
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Verify all builds succeeded
+        run: |
+          if [ "${{ needs.build.result }}" != "success" ]; then
+            echo "One or more image builds failed (build result: ${{ needs.build.result }})"
+            exit 1
+          fi
+          echo "All image builds succeeded"
