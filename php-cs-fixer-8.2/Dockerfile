@@ -1,5 +1,5 @@
 # Builder stage – download the pinned php-cs-fixer phar
-FROM php:8.2-cli-alpine AS builder
+FROM php:8.2-cli-alpine@sha256:69ac2133d7760c988beff12075215bf36a044d7d2439982f8304be0b6f1e3603 AS builder
 
 RUN apk add --no-cache curl
 
@@ -11,7 +11,7 @@ RUN curl -sS -L "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/
     && php /usr/bin/php-cs-fixer --version
 
 # Final image
-FROM php:8.2-cli-alpine
+FROM php:8.2-cli-alpine@sha256:69ac2133d7760c988beff12075215bf36a044d7d2439982f8304be0b6f1e3603
 
 COPY --from=builder /usr/bin/php-cs-fixer /usr/bin/php-cs-fixer
 
