@@ -4,7 +4,7 @@ FROM php:8.5-cli-alpine@sha256:8d7090ce03736b6ecfd739d87a46ab59b5d1d0d837f1ac7c5
 RUN apk add --no-cache curl
 
 # renovate: datasource=github-releases depName=PHP-CS-Fixer/PHP-CS-Fixer
-ENV PHP_CS_FIXER_VERSION="v3.95.13"
+ENV PHP_CS_FIXER_VERSION="v3.95.15"
 RUN curl -sS -L "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/${PHP_CS_FIXER_VERSION}/php-cs-fixer.phar" \
       -o /usr/bin/php-cs-fixer \
     && chmod +x /usr/bin/php-cs-fixer \
