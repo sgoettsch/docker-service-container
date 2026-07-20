@@ -7,7 +7,7 @@ required.
 Two kinds of images are provided:
 
 - **Tool images** — run a single code-quality tool pinned to a fixed version
-  (PHP-CS-Fixer).
+  (PHP-CS-Fixer, PHPStan).
 - **Claude Code sandboxes** — preconfigured language environments for running
   [Claude Code](https://claude.ai/code) in a container.
 
@@ -64,6 +64,48 @@ php-cs-fixer:
   image: ghcr.io/sgoettsch/php-cs-fixer-8.4
   script:
     - php-cs-fixer fix --dry-run --diff --stop-on-violation .
+```
+
+### PHPStan
+
+[PHPStan](https://github.com/phpstan/phpstan) with the `phpstan` binary as the
+entrypoint (inherited from the upstream `phpstan/phpstan` base image). Each image
+adds the PHP extensions commonly needed to analyse real-world projects: `intl`,
+`soap`, `mysqli`, `sockets`, `xml`, `zip`, OpenSwoole, and Redis, plus Composer.
+One image per PHP runtime — pick the one matching the PHP version your project
+targets.
+
+| Image | PHP runtime |
+|-------|-------------|
+| `ghcr.io/sgoettsch/phpstan-8.2` | 8.2 |
+| `ghcr.io/sgoettsch/phpstan-8.3` | 8.3 |
+| `ghcr.io/sgoettsch/phpstan-8.4` | 8.4 |
+| `ghcr.io/sgoettsch/phpstan-8.5` | 8.5 |
+
+Mount your project into `/app` (the image's working directory) and pass any
+`phpstan` argument. Swap `8.4` for the PHP version you target.
+
+```bash
+# Show the version
+docker run --rm ghcr.io/sgoettsch/phpstan-8.4 --version
+
+# Analyse the project mounted at /app
+docker run --rm -v "$PWD:/app" ghcr.io/sgoettsch/phpstan-8.4 analyse /app
+```
+
+Notes:
+
+- A `phpstan.neon` / `phpstan.neon.dist` config in your project root is picked up
+  automatically. Point at a specific file with `--configuration=phpstan.neon`.
+- **PowerShell:** use `${PWD}` instead of `$PWD` for the volume mount.
+
+#### GitLab CI example
+
+```yaml
+phpstan:
+  image: ghcr.io/sgoettsch/phpstan-8.4
+  script:
+    - phpstan analyse /app
 ```
 
 ## Claude Code sandbox: Elixir
