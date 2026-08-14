@@ -108,6 +108,42 @@ phpstan:
     - phpstan analyse /app
 ```
 
+#### Migrating from `docker-phpstan`
+
+These images replace `ghcr.io/sgoettsch/docker-phpstan:latest-php8.X` from the now
+archived [sgoettsch/docker-phpstan](https://github.com/sgoettsch/docker-phpstan).
+Note that the PHP version moved out of the tag and into the image name.
+
+Renovate can do the migration for you — extend the preset published in this repo:
+
+```json
+{
+  "extends": [
+    "config:recommended",
+    "github>sgoettsch/docker-service-container:replacements"
+  ]
+}
+```
+
+That rewrites `docker-phpstan:latest-php8.2/8.3/8.4` references in Dockerfiles and
+GitHub Actions workflows. `latest-php8.1` is deliberately left alone — there is no
+8.1 image here.
+
+Image references inside `composer.json` scripts are invisible to every built-in
+Renovate manager. Additionally extend
+`github>sgoettsch/docker-service-container:composerScriptImages` to have those
+picked up as well; be aware it makes Renovate track *all* `ghcr.io` references in
+your `composer.json`, not just these.
+
+## Renovate presets
+
+This repository also publishes shareable Renovate presets:
+
+| Preset | Purpose |
+|--------|---------|
+| `github>sgoettsch/docker-service-container:replacements` | Replacement rules for images retired from other repos |
+| `github>sgoettsch/docker-service-container:composerScriptImages` | Custom manager for `ghcr.io` images referenced in `composer.json` scripts |
+
 ## Claude Code sandbox: Elixir
 
 `ghcr.io/sgoettsch/claude-elixir-sandbox` — an Elixir/Erlang development
