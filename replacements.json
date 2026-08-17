@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Replacement rules for images retired from sgoettsch/docker-phpstan (archived) in favour of the images built here",
+  "packageRules": [
+    {
+      "description": "docker-phpstan latest-php8.2 -> phpstan-8.2",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/sgoettsch/docker-phpstan"],
+      "matchCurrentValue": "/^latest-php8\\.2$/",
+      "replacementName": "ghcr.io/sgoettsch/phpstan-8.2",
+      "replacementVersion": "latest"
+    },
+    {
+      "description": "docker-phpstan latest-php8.3 -> phpstan-8.3",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/sgoettsch/docker-phpstan"],
+      "matchCurrentValue": "/^latest-php8\\.3$/",
+      "replacementName": "ghcr.io/sgoettsch/phpstan-8.3",
+      "replacementVersion": "latest"
+    },
+    {
+      "description": "docker-phpstan latest-php8.4 -> phpstan-8.4",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/sgoettsch/docker-phpstan"],
+      "matchCurrentValue": "/^latest-php8\\.4$/",
+      "replacementName": "ghcr.io/sgoettsch/phpstan-8.4",
+      "replacementVersion": "latest"
+    }
+  ]
+}
