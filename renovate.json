@@ -1,7 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "schedule": "* * * * 5",
-  "automergeSchedule": ["at any time"],
+  "schedule": ["every weekday"],
   "extends": [
     "config:recommended",
     "docker:pinDigests",
