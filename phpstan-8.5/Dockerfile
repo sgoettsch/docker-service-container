@@ -32,7 +32,7 @@ RUN apk add --no-cache icu-dev libxml2-dev libzip-dev linux-headers && \
 
 # Composer
 # renovate: datasource=github-tags depName=composer/composer versioning=semver
-ENV COMPOSER_VERSION="2.11.1"
+ENV COMPOSER_VERSION="2.11.2"
 RUN curl -sfL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
     chmod +x /usr/bin/composer && \
     composer self-update --clean-backups ${COMPOSER_VERSION}
