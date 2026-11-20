@@ -7,7 +7,7 @@ FROM ghcr.io/phpstan/phpstan:latest-php8.5@sha256:a0f51e0f80a0a4c204ec2c734dc291
 
 # Openswoole
 # renovate: datasource=github-tags depName=openswoole/swoole-src versioning=semver
-ENV OPENSWOOLE_VERSION="v26.2.0"
+ENV OPENSWOOLE_VERSION="v26.11.1"
 RUN apk add --no-cache linux-headers && \
     apk add --no-cache libstdc++ postgresql-dev libpq liburing liburing-dev && \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev openssl-dev pcre-dev pcre2-dev zlib-dev && \
