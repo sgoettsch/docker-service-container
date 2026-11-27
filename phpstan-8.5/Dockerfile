@@ -1,4 +1,4 @@
-FROM ghcr.io/php/pie:bin@sha256:f49c15dbb88a7aec373fdb15ab9004bf08958772db3b476c42364e10a8ea416f AS pie-installer
+FROM ghcr.io/php/pie:bin@sha256:2ca18ec63249ff2d8b9936afeea88ab2e9225041980c16b7ad99ce0fccb014a6 AS pie-installer
 
 ### ------------------------------------------------
 ### Builder stage – OpenSwoole
